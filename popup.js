@@ -1,4 +1,4 @@
-const DEFAULTS = { enabled: true, mode: "all", sites: [] };
+const DEFAULTS = { enabled: true, mode: "all", sites: [], exceptions: [] };
 
 const t = (key, subs) => chrome.i18n.getMessage(key, subs);
 
@@ -9,6 +9,9 @@ const el = {
   addCurrent: document.getElementById("addCurrent"),
   siteList: document.getElementById("siteList"),
   sitesEmpty: document.getElementById("sitesEmpty"),
+  addCurrentException: document.getElementById("addCurrentException"),
+  exceptionList: document.getElementById("exceptionList"),
+  exceptionsEmpty: document.getElementById("exceptionsEmpty"),
   status: document.getElementById("status")
 };
 
@@ -40,7 +43,8 @@ async function load() {
   state = {
     enabled: s.enabled !== false,
     mode: s.mode === "sites" ? "sites" : "all",
-    sites: Array.isArray(s.sites) ? s.sites : []
+    sites: Array.isArray(s.sites) ? s.sites : [],
+    exceptions: Array.isArray(s.exceptions) ? s.exceptions : []
   };
   render();
 }
@@ -77,6 +81,26 @@ function render() {
   }
   el.sitesEmpty.style.display = state.sites.length >= 2 ? "none" : "block";
 
+  // Exception list.
+  el.exceptionList.innerHTML = "";
+  for (const d of state.exceptions) {
+    const li = document.createElement("li");
+    const span = document.createElement("span");
+    span.textContent = d;
+    const rm = document.createElement("button");
+    rm.className = "rm";
+    rm.textContent = "×";
+    rm.title = t("removeTitle");
+    rm.addEventListener("click", () => {
+      state.exceptions = state.exceptions.filter(x => x !== d);
+      save();
+    });
+    li.appendChild(span);
+    li.appendChild(rm);
+    el.exceptionList.appendChild(li);
+  }
+  el.exceptionsEmpty.style.display = state.exceptions.length > 0 ? "none" : "block";
+
   // Status line.
   if (!state.enabled) {
     el.status.textContent = t("statusDisabled");
@@ -104,6 +128,14 @@ el.addCurrent.addEventListener("click", async () => {
   const d = domainOf(tab && tab.url);
   if (!d) { el.status.textContent = t("invalidDomain"); return; }
   if (!state.sites.includes(d)) state.sites.push(d);
+  await save();
+});
+
+el.addCurrentException.addEventListener("click", async () => {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  const d = domainOf(tab && tab.url);
+  if (!d) { el.status.textContent = t("invalidDomain"); return; }
+  if (!state.exceptions.includes(d)) state.exceptions.push(d);
   await save();
 });
 

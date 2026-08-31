@@ -46,5 +46,17 @@
   },
   "invalidDomain": {
     "message": "This tab has no valid domain."
+  },
+  "exceptionsTitle": {
+    "message": "Exceptions (ignore sound)"
+  },
+  "exceptionsDesc": {
+    "message": "Tabs from these sites won't pause the others when they play sound. Useful for short notifications, like WhatsApp Web."
+  },
+  "addThisTabException": {
+    "message": "+ Add this tab"
+  },
+  "exceptionsEmptyHint": {
+    "message": "Add sites whose sound you want to ignore (e.g. notifications)."
   }
 }

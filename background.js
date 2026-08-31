@@ -6,8 +6,9 @@
 
 const DEFAULTS = {
   enabled: true,
-  mode: "all",   // "all" = any tab pauses the rest; "sites" = only between the listed sites.
-  sites: []      // participating domains when mode === "sites" (e.g. "example.com").
+  mode: "all",     // "all" = any tab pauses the rest; "sites" = only between the listed sites.
+  sites: [],       // participating domains when mode === "sites" (e.g. "example.com").
+  exceptions: []   // domains whose sound never pauses other tabs (e.g. "web.whatsapp.com").
 };
 
 async function getSettings() {
@@ -16,7 +17,8 @@ async function getSettings() {
   return {
     enabled: s.enabled !== false,
     mode: s.mode === "sites" ? "sites" : "all",
-    sites: Array.isArray(s.sites) ? s.sites : []
+    sites: Array.isArray(s.sites) ? s.sites : [],
+    exceptions: Array.isArray(s.exceptions) ? s.exceptions : []
   };
 }
 
@@ -71,6 +73,9 @@ async function enforce(triggerTab) {
   if (!settings.enabled) return;
 
   const triggerDomain = domainOf(triggerTab.url);
+
+  // Exception sites never trigger a pause of other tabs (e.g. brief notification sounds).
+  if (siteMatches(triggerDomain, settings.exceptions)) return;
 
   // In "sites" mode the trigger must belong to the managed set; otherwise do nothing.
   if (settings.mode === "sites" && !siteMatches(triggerDomain, settings.sites)) return;

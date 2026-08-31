@@ -46,5 +46,17 @@
   },
   "invalidDomain": {
     "message": "Esta pestaña no tiene un dominio válido."
+  },
+  "exceptionsTitle": {
+    "message": "Excepciones (ignorar sonido)"
+  },
+  "exceptionsDesc": {
+    "message": "Las pestañas de estos sitios no pausarán a las demás al sonar. Útil para notificaciones cortas, como WhatsApp Web."
+  },
+  "addThisTabException": {
+    "message": "+ Añadir esta pestaña"
+  },
+  "exceptionsEmptyHint": {
+    "message": "Añade sitios cuyo sonido quieras ignorar (por ejemplo, notificaciones)."
   }
 }
