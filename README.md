@@ -30,6 +30,8 @@ is exactly where AudiStop runs.
 - **Real pause** — it actually pauses the `<video>`/`<audio>` element (not just mute),
   so nothing keeps playing in the background. Press play again whenever you want.
 - **Global on/off switch.**
+- **Bilingual UI** — English and Spanish, chosen automatically from your browser's
+  language (falls back to English).
 - **Private & lightweight** — no telemetry, no network requests, no accounts.
   Respects your dark mode.
 
@@ -93,6 +95,7 @@ AudiStop sends no data anywhere. Everything stays in your own browser profile vi
 | `manifest.json` | Manifest V3 definition. |
 | `background.js` | Service worker: detects the active tab and pauses the others. |
 | `popup.html` · `popup.css` · `popup.js` | Control panel (modes and site list). |
+| `_locales/` | UI translations (English and Spanish). |
 | `icons/` | Extension icons. |
 
 ## Contributing

@@ -1,0 +1,50 @@
+{
+  "appDesc": {
+    "message": "Automatically pauses audio in your other tabs when one starts playing, so you never hear two sounds at once. Works on any site."
+  },
+  "subtitle": {
+    "message": "When a tab starts playing, the others pause."
+  },
+  "modeAllTitle": {
+    "message": "All tabs"
+  },
+  "modeAllDesc": {
+    "message": "Any tab that plays pauses the rest."
+  },
+  "modeSitesTitle": {
+    "message": "Only between these sites"
+  },
+  "modeSitesDesc": {
+    "message": "The rule applies only between the domains in the list."
+  },
+  "addThisTab": {
+    "message": "+ Add this tab"
+  },
+  "sitesEmptyHint": {
+    "message": "Add at least 2 sites to apply the rule between."
+  },
+  "removeTitle": {
+    "message": "Remove"
+  },
+  "toggleTitle": {
+    "message": "Enable/disable"
+  },
+  "statusDisabled": {
+    "message": "Disabled."
+  },
+  "statusAllTabs": {
+    "message": "On · one tab at a time."
+  },
+  "statusBetweenSites": {
+    "message": "On · between $COUNT$ sites.",
+    "placeholders": {
+      "count": { "content": "$1" }
+    }
+  },
+  "statusAddMoreSites": {
+    "message": "On · add more sites."
+  },
+  "invalidDomain": {
+    "message": "This tab has no valid domain."
+  }
+}

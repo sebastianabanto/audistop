@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="popup.css">
@@ -8,31 +8,31 @@
   <header>
     <div class="logo"></div>
     <h1>AudiStop</h1>
-    <label class="switch" title="Activar/desactivar">
+    <label class="switch" data-i18n-title="toggleTitle">
       <input type="checkbox" id="enabled">
       <span class="slider"></span>
     </label>
   </header>
 
-  <p class="subtitle">Cuando una pestaña empieza a sonar, pausa las demás.</p>
+  <p class="subtitle" data-i18n="subtitle"></p>
 
   <section class="modes">
     <label class="radio">
       <input type="radio" name="mode" value="all">
-      <span><strong>Todas las pestañas</strong><br><small>Cualquier pestaña que suene pausa a las demás.</small></span>
+      <span><strong data-i18n="modeAllTitle"></strong><br><small data-i18n="modeAllDesc"></small></span>
     </label>
     <label class="radio">
       <input type="radio" name="mode" value="sites">
-      <span><strong>Solo entre estos sitios</strong><br><small>La regla aplica solo entre los dominios de la lista.</small></span>
+      <span><strong data-i18n="modeSitesTitle"></strong><br><small data-i18n="modeSitesDesc"></small></span>
     </label>
   </section>
 
   <section id="sitesPanel" class="sites">
     <div class="siteAddRow">
-      <button id="addCurrent" type="button">+ Añadir esta pestaña</button>
+      <button id="addCurrent" type="button" data-i18n="addThisTab"></button>
     </div>
     <ul id="siteList"></ul>
-    <p id="sitesEmpty" class="hint">Añade al menos 2 sitios entre los que quieras aplicar la regla.</p>
+    <p id="sitesEmpty" class="hint" data-i18n="sitesEmptyHint"></p>
   </section>
 
   <footer id="status"></footer>

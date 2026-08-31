@@ -1,18 +1,18 @@
 // AudiStop — service worker (Manifest V3).
 //
-// Idea central: el navegador nos dice, por pestaña, si está emitiendo sonido
-// (tab.audible). Cuando una pestaña empieza a sonar, pausamos el <video>/<audio>
-// de las demás pestañas que correspondan según el modo elegido.
+// Core idea: the browser tells us, per tab, whether it is producing sound
+// (tab.audible). When a tab starts playing, we pause the <video>/<audio> of the
+// other tabs that apply according to the selected mode.
 
 const DEFAULTS = {
   enabled: true,
-  mode: "all",   // "all" = cualquier pestaña pausa a las demás; "sites" = solo entre los sitios de la lista.
-  sites: []      // dominios participantes cuando mode === "sites" (ej. "youtube.com", "music.youtube.com").
+  mode: "all",   // "all" = any tab pauses the rest; "sites" = only between the listed sites.
+  sites: []      // participating domains when mode === "sites" (e.g. "example.com").
 };
 
 async function getSettings() {
   const s = await chrome.storage.sync.get(DEFAULTS);
-  // Normaliza por si el storage viene incompleto.
+  // Normalize in case storage is incomplete.
   return {
     enabled: s.enabled !== false,
     mode: s.mode === "sites" ? "sites" : "all",
@@ -20,7 +20,7 @@ async function getSettings() {
   };
 }
 
-// Extrae el dominio (sin "www.") de una URL; "" si no aplica (chrome://, etc.).
+// Extracts the domain (without "www.") from a URL; "" if not applicable (chrome://, etc.).
 function domainOf(url) {
   try {
     const h = new URL(url).hostname.toLowerCase();
@@ -30,9 +30,9 @@ function domainOf(url) {
   }
 }
 
-// ¿El dominio de la pestaña está cubierto por la lista de sitios?
-// Coincide por sufijo para que "youtube.com" cubra "music.youtube.com" si el
-// usuario así lo quiere, pero cada entrada se compara de forma exacta o como sufijo.
+// Is the tab's domain covered by the site list? Matches by suffix so that
+// "example.com" also covers "sub.example.com", while each entry is compared
+// either exactly or as a suffix.
 function siteMatches(domain, sites) {
   if (!domain) return false;
   return sites.some(entry => {
@@ -42,7 +42,7 @@ function siteMatches(domain, sites) {
   });
 }
 
-// Función que se inyecta EN la pestaña a pausar: detiene todo media que esté sonando.
+// Injected INTO the tab to pause: stops every media element that is playing.
 function pauseAllMediaInPage() {
   let paused = 0;
   for (const m of document.querySelectorAll("video, audio")) {
@@ -60,22 +60,22 @@ async function pauseTab(tabId) {
       func: pauseAllMediaInPage
     });
   } catch (e) {
-    // Páginas donde no se puede inyectar (store del navegador, páginas internas,
-    // PDFs, etc.). No hay nada que hacer ahí; se ignora en silencio.
+    // Pages we cannot inject into (browser store, internal pages, PDFs, etc.).
+    // Nothing to do there; silently ignored.
   }
 }
 
-// Núcleo: una pestaña "trigger" empezó a sonar → pausar las demás que correspondan.
+// Core: a "trigger" tab started playing → pause the other applicable tabs.
 async function enforce(triggerTab) {
   const settings = await getSettings();
   if (!settings.enabled) return;
 
   const triggerDomain = domainOf(triggerTab.url);
 
-  // En modo "sites", el trigger debe pertenecer al conjunto gestionado; si no, no tocamos nada.
+  // In "sites" mode the trigger must belong to the managed set; otherwise do nothing.
   if (settings.mode === "sites" && !siteMatches(triggerDomain, settings.sites)) return;
 
-  // Todas las pestañas que están emitiendo sonido ahora mismo.
+  // Every tab that is currently producing sound.
   const audible = await chrome.tabs.query({ audible: true });
 
   for (const other of audible) {
@@ -90,15 +90,15 @@ async function enforce(triggerTab) {
   }
 }
 
-// Se dispara cuando cambia el estado de audio de una pestaña. Reaccionamos solo a
-// la transición "empezó a sonar" (audible === true).
+// Fires when a tab's audio state changes. We react only to the transition
+// "started playing" (audible === true).
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.audible === true) {
     enforce(tab);
   }
 });
 
-// Valores por defecto al instalar.
+// Default values on install.
 chrome.runtime.onInstalled.addListener(async () => {
   const cur = await chrome.storage.sync.get(DEFAULTS);
   await chrome.storage.sync.set({ ...DEFAULTS, ...cur });

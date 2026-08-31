@@ -1,0 +1,50 @@
+{
+  "appDesc": {
+    "message": "Pausa automáticamente el audio de tus otras pestañas cuando una empieza a reproducir, para que nunca suenen dos a la vez. Funciona en cualquier sitio."
+  },
+  "subtitle": {
+    "message": "Cuando una pestaña empieza a sonar, las demás se pausan."
+  },
+  "modeAllTitle": {
+    "message": "Todas las pestañas"
+  },
+  "modeAllDesc": {
+    "message": "Cualquier pestaña que suene pausa a las demás."
+  },
+  "modeSitesTitle": {
+    "message": "Solo entre estos sitios"
+  },
+  "modeSitesDesc": {
+    "message": "La regla aplica solo entre los dominios de la lista."
+  },
+  "addThisTab": {
+    "message": "+ Añadir esta pestaña"
+  },
+  "sitesEmptyHint": {
+    "message": "Añade al menos 2 sitios entre los que aplicar la regla."
+  },
+  "removeTitle": {
+    "message": "Quitar"
+  },
+  "toggleTitle": {
+    "message": "Activar/desactivar"
+  },
+  "statusDisabled": {
+    "message": "Desactivado."
+  },
+  "statusAllTabs": {
+    "message": "Activo · una pestaña a la vez."
+  },
+  "statusBetweenSites": {
+    "message": "Activo · entre $COUNT$ sitios.",
+    "placeholders": {
+      "count": { "content": "$1" }
+    }
+  },
+  "statusAddMoreSites": {
+    "message": "Activo · faltan sitios por añadir."
+  },
+  "invalidDomain": {
+    "message": "Esta pestaña no tiene un dominio válido."
+  }
+}

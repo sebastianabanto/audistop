@@ -1,5 +1,7 @@
 const DEFAULTS = { enabled: true, mode: "all", sites: [] };
 
+const t = (key, subs) => chrome.i18n.getMessage(key, subs);
+
 const el = {
   enabled: document.getElementById("enabled"),
   modeRadios: () => document.querySelectorAll('input[name="mode"]'),
@@ -11,6 +13,20 @@ const el = {
 };
 
 let state = { ...DEFAULTS };
+
+// Fills every [data-i18n]/[data-i18n-title] element with the localized string.
+// The browser picks the locale automatically (falls back to English).
+function localize() {
+  document.documentElement.lang = chrome.i18n.getUILanguage();
+  for (const node of document.querySelectorAll("[data-i18n]")) {
+    const msg = t(node.dataset.i18n);
+    if (msg) node.textContent = msg;
+  }
+  for (const node of document.querySelectorAll("[data-i18n-title]")) {
+    const msg = t(node.dataset.i18nTitle);
+    if (msg) node.title = msg;
+  }
+}
 
 function domainOf(url) {
   try {
@@ -41,7 +57,7 @@ function render() {
   for (const r of el.modeRadios()) r.checked = (r.value === state.mode);
   el.sitesPanel.classList.toggle("hidden", state.mode !== "sites");
 
-  // Lista de sitios.
+  // Site list.
   el.siteList.innerHTML = "";
   for (const d of state.sites) {
     const li = document.createElement("li");
@@ -50,7 +66,7 @@ function render() {
     const rm = document.createElement("button");
     rm.className = "rm";
     rm.textContent = "×";
-    rm.title = "Quitar";
+    rm.title = t("removeTitle");
     rm.addEventListener("click", () => {
       state.sites = state.sites.filter(x => x !== d);
       save();
@@ -61,19 +77,19 @@ function render() {
   }
   el.sitesEmpty.style.display = state.sites.length >= 2 ? "none" : "block";
 
-  // Estado.
+  // Status line.
   if (!state.enabled) {
-    el.status.textContent = "Desactivado.";
+    el.status.textContent = t("statusDisabled");
   } else if (state.mode === "all") {
-    el.status.textContent = "Activo · una pestaña a la vez.";
+    el.status.textContent = t("statusAllTabs");
   } else {
     el.status.textContent = state.sites.length >= 2
-      ? `Activo · entre ${state.sites.length} sitios.`
-      : "Activo · faltan sitios por añadir.";
+      ? t("statusBetweenSites", [String(state.sites.length)])
+      : t("statusAddMoreSites");
   }
 }
 
-// ---- Eventos ----
+// ---- Events ----
 
 el.enabled.addEventListener("change", () => { state.enabled = el.enabled.checked; save(); });
 
@@ -86,9 +102,10 @@ for (const r of el.modeRadios()) {
 el.addCurrent.addEventListener("click", async () => {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   const d = domainOf(tab && tab.url);
-  if (!d) { el.status.textContent = "Esta pestaña no tiene un dominio válido."; return; }
+  if (!d) { el.status.textContent = t("invalidDomain"); return; }
   if (!state.sites.includes(d)) state.sites.push(d);
   await save();
 });
 
+localize();
 load();
