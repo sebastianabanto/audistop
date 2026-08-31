@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <div class="logo"></div>
+    <h1>AudiStop</h1>
+    <label class="switch" title="Activar/desactivar">
+      <input type="checkbox" id="enabled">
+      <span class="slider"></span>
+    </label>
+  </header>
+
+  <p class="subtitle">Cuando una pestaña empieza a sonar, pausa las demás.</p>
+
+  <section class="modes">
+    <label class="radio">
+      <input type="radio" name="mode" value="all">
+      <span><strong>Todas las pestañas</strong><br><small>Cualquier pestaña que suene pausa a las demás.</small></span>
+    </label>
+    <label class="radio">
+      <input type="radio" name="mode" value="sites">
+      <span><strong>Solo entre estos sitios</strong><br><small>La regla aplica solo entre los dominios de la lista.</small></span>
+    </label>
+  </section>
+
+  <section id="sitesPanel" class="sites">
+    <div class="siteAddRow">
+      <button id="addCurrent" type="button">+ Añadir esta pestaña</button>
+    </div>
+    <ul id="siteList"></ul>
+    <p id="sitesEmpty" class="hint">Añade al menos 2 sitios (ej. youtube.com y music.youtube.com).</p>
+  </section>
+
+  <footer id="status"></footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>

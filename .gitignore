@@ -1,0 +1,10 @@
+# Empaquetado de la extensión
+*.crx
+*.pem
+*.zip
+
+# Sistema operativo / editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
