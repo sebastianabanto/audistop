@@ -1,13 +1,19 @@
 # AudiStop
 
 **Never hear two tabs play audio at once.** AudiStop is a lightweight browser
-extension for **Chrome** and **Edge** that automatically pauses the audio in your
-other tabs the moment one starts playing. Switch from a music tab to a video, or
-from a podcast to a live stream, and the previous one pauses on its own — no more
-racing to find the tab that's making noise.
+extension for **Chrome**, **Edge**, and other Chromium-based browsers (Brave, Opera,
+Vivaldi) that automatically pauses the audio in your other tabs the moment one starts
+playing. Switch from a music tab to a video, or from a podcast to a live stream, and
+the previous one pauses on its own — no more racing to find the tab that's making noise.
 
-Works with any site that plays media through a standard `<video>` or `<audio>`
-element: music streaming, video sites, podcasts, live streams, web players, and more.
+In short, it enforces **one audio tab at a time**: when a new tab starts making sound,
+the others are paused. Works with any site that plays media through a standard
+`<video>` or `<audio>` element — music streaming, video sites, podcasts, live streams,
+and web players alike.
+
+> Also useful if you're looking to: auto-pause background tabs, stop overlapping audio,
+> pause other tabs when one plays, mute-free tab audio focus, or keep only one tab
+> playing sound.
 
 ![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue)
 ![Chrome & Edge](https://img.shields.io/badge/browser-Chrome%20%7C%20Edge-4285F4)
@@ -60,6 +66,17 @@ Click the toolbar icon to open the panel:
 - **Selected sites** — open a tab and click **+ Add this tab**; repeat for the
   others. The auto-pause rule then applies only among those domains.
 
+## Use cases
+
+- Listening to music in one tab and clicking a video in another — the music pauses
+  instead of playing on top of the video.
+- Juggling several video or streaming tabs and wanting only the one you're watching
+  to have sound.
+- Reading with a podcast or lo-fi tab open, then opening something else that plays
+  audio, without hearing both at once.
+- Anyone who constantly hunts for "which tab is making that noise?" and mutes it by
+  hand.
+
 ## How it works
 
 The extension listens for the browser's per-tab *audible* signal. When a tab starts
@@ -97,6 +114,43 @@ AudiStop sends no data anywhere. Everything stays in your own browser profile vi
 | `popup.html` · `popup.css` · `popup.js` | Control panel (modes and site list). |
 | `_locales/` | UI translations (English and Spanish). |
 | `icons/` | Extension icons. |
+| `llms.txt` | Machine-readable project summary for AI tools ([llmstxt.org](https://llmstxt.org)). |
+
+## FAQ
+
+### How do I stop two browser tabs from playing audio at the same time?
+Install AudiStop and leave it in **All tabs** mode. Whenever a tab starts playing
+sound, every other tab that's playing is paused automatically, so only one plays at a
+time.
+
+### Does it mute the other tab or actually pause it?
+It **pauses** the media (`<video>`/`<audio>`), it does not just mute it. Nothing keeps
+running silently in the background; you press play again when you want it back.
+
+### Which browsers are supported?
+Any Chromium-based browser: **Google Chrome, Microsoft Edge, Brave, Opera, and
+Vivaldi**. It's a standard Manifest V3 extension.
+
+### Does it work with YouTube, Spotify Web, SoundCloud, Twitch, etc.?
+Yes — it works with any site that plays sound through a standard HTML media element,
+which covers virtually all mainstream music, video, and streaming sites.
+
+### Can I limit it to just a couple of sites?
+Yes. Switch to **Selected sites** mode and add the domains you want; the auto-pause
+rule then applies only among those, leaving every other tab untouched.
+
+### Is it free and open source?
+Yes, it's free and MIT-licensed. The whole extension is a few small files with no
+dependencies and no build step.
+
+### Does it collect any data?
+No. There is no telemetry and no network activity. Your settings live only in your
+browser profile via `chrome.storage.sync`.
+
+### Why an extension instead of a desktop app?
+A browser exposes all its tabs to the operating system as a **single** audio stream,
+so a Windows app cannot tell one tab from another. Only code running inside the
+browser can act per tab — which is what this extension does.
 
 ## Contributing
 

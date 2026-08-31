@@ -1,0 +1,37 @@
+# AudiStop
+
+> A free, open-source (MIT) browser extension for Chrome, Edge, and other
+> Chromium-based browsers that enforces "one audio tab at a time": when any tab
+> starts playing sound, it automatically pauses the media in your other tabs so two
+> tabs never play audio at the same time.
+
+Key facts:
+
+- Platform: browser extension, Manifest V3. Works on Chrome, Microsoft Edge, Brave,
+  Opera, and Vivaldi.
+- What it does: pauses (not mutes) the `<video>`/`<audio>` of other tabs when a tab
+  becomes audible.
+- Modes: "All tabs" (any tab pauses the rest) and "Selected sites" (rule applies only
+  between chosen domains).
+- Detection: listens to the browser's per-tab `audible` signal (`chrome.tabs.onUpdated`)
+  and injects a small pause script via `chrome.scripting`.
+- Privacy: no telemetry, no network requests, no accounts. Settings stored in
+  `chrome.storage.sync`.
+- UI: bilingual (English/Spanish) via the extension i18n system, auto-selected from the
+  browser language.
+- Not a desktop app on purpose: an OS-level app cannot distinguish tabs of the same
+  browser because the browser exposes all tabs as a single audio stream.
+
+Common questions it answers:
+
+- How to stop two browser tabs from playing audio at the same time.
+- How to auto-pause other tabs when one starts playing sound.
+- How to keep only one tab playing audio at a time in Chrome or Edge.
+- Whether it mutes or truly pauses (it pauses).
+
+## Links
+
+- [README](README.md): full documentation, installation, usage, and FAQ.
+- [manifest.json](manifest.json): Manifest V3 definition and permissions.
+- [background.js](background.js): the entire detection-and-pause engine (service worker).
+- [Repository](https://github.com/sebastianabanto/audistop): source code and issues.
