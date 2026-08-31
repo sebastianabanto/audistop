@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "AudiStop",
   "version": "1.0.0",
-  "description": "Evita que se solapen audios entre pestañas: cuando una empieza a sonar, pausa las demás (Solo) o solo entre los sitios que elijas.",
+  "description": "Automatically pauses audio in your other tabs when one starts playing, so you never hear two sounds at once. Works on any site.",
   "permissions": ["tabs", "scripting", "storage"],
   "host_permissions": ["<all_urls>"],
   "background": {
